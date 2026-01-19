@@ -1,3 +1,3 @@
-import { CardOrder } from "./CardOrder";
+import { CardOrder } from './CardOrder'
 
 export default CardOrder

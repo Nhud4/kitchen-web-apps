@@ -1,7 +1,7 @@
 import Layout from '@components/layout'
+import CardOrder from '@features/CardOrder'
 import { getLocalDay } from '@utils/date'
 import type React from 'react'
-import CardOrder from '@features/CardOrder'
 
 export const Dashboard: React.FC = () => {
   return (

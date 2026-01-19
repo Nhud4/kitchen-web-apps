@@ -1,5 +1,6 @@
-import styles from './styles.module.css'
 import ICONS from '@configs/icons'
+
+import styles from './styles.module.css'
 
 type Props = {
   title?: string

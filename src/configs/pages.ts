@@ -7,9 +7,9 @@ const DetailOrder = React.lazy(() => import('@pages/DetailOrder'))
 
 const PAGES = {
   Dashboard,
+  DetailOrder,
   Login,
   NotFound,
-  DetailOrder
 }
 
 export default PAGES

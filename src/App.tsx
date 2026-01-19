@@ -12,6 +12,7 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 
+import ContextProvider from './contexts'
 import { getUserToken } from './storage'
 
 const RequireAuth = React.memo<{
@@ -75,9 +76,11 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     <Provider store={store}>
-      <Suspense fallback={<FallbackPage />}>
-        <RouterProvider router={router} />
-      </Suspense>
+      <ContextProvider>
+        <Suspense fallback={<FallbackPage />}>
+          <RouterProvider router={router} />
+        </Suspense>
+      </ContextProvider>
     </Provider>
   )
 }

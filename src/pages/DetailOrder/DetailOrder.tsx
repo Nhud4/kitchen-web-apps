@@ -1,18 +1,17 @@
-import ICONS from '@configs/icons'
-import Layout from '@components/layout'
-import styles from './styles.module.css'
-import { useParams } from 'react-router-dom'
-import { dateOfTransactionFormat } from '@utils/date'
 import Button from '@components/elements/Button'
+import Layout from '@components/layout'
+import ICONS from '@configs/icons'
+import { dateOfTransactionFormat } from '@utils/date'
+import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+
+import styles from './styles.module.css'
 
 export const DetailOrder = () => {
   const { id = '' } = useParams()
   const navigate = useNavigate()
   return (
     <Layout
-      title="Detail Pesanan"
-      headerVariant="custom"
       headerComponent={
         <div className="flex items-center text-white">
           <button className="w-12 h-12" onClick={() => navigate('/')}>
@@ -21,6 +20,8 @@ export const DetailOrder = () => {
           <h1 className="text-lg font-bold">Detail Pesanan</h1>
         </div>
       }
+      headerVariant="custom"
+      title="Detail Pesanan"
     >
       <section className="layout page pb-28">
         <div className="space-y-4">
@@ -66,8 +67,8 @@ export const DetailOrder = () => {
 
               {new Array(1).fill('').map((_, index) => (
                 <div
-                  key={index}
                   className="py-4 border-b border-b-border space-y-2"
+                  key={index}
                 >
                   <div className="flex items-center gap-4">
                     <p className="w-[80%]">Mie Goreng sambal mangga</p>

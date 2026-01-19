@@ -31,8 +31,8 @@ export const CardOrder = () => {
 
       <Button
         className="w-full justify-center"
-        variant="outline"
         onClick={() => navigate('/order/TRX-2601010001')}
+        variant="outline"
       >
         Detail Pesanan
       </Button>

@@ -17,10 +17,10 @@ export const Header: React.FC<Props> = ({
   return (
     <header className={styles.header}>
       <Navbar
+        component={component}
         subtitle={subTitle}
         title={title}
         variant={variant}
-        component={component}
       />
     </header>
   )

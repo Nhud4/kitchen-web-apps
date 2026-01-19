@@ -30,9 +30,9 @@ const Layout: React.FC<Props> = ({
   return (
     <main className={styles.container}>
       <Header
+        component={headerComponent}
         subTitle={subTitle}
         title={title}
-        component={headerComponent}
         variant={headerVariant}
       />
       <div className="mt-20 w-full">{children}</div>

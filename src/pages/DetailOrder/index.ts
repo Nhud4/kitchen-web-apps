@@ -1,3 +1,3 @@
-import { DetailOrder } from "./DetailOrder";
+import { DetailOrder } from './DetailOrder'
 
 export default DetailOrder
