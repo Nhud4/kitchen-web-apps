@@ -1,0 +1,12 @@
+.navbar {
+  @apply flex items-center space-x-4 w-full p-4 bg-orange;
+  height: 80px;
+}
+
+.title > h1 {
+  @apply text-lg font-bold text-white;
+}
+
+.title > p {
+  @apply text-sm text-neutral;
+}

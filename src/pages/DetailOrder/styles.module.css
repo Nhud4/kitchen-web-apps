@@ -1,0 +1,15 @@
+.orderInfo {
+  @apply my-4;
+}
+
+.orderInfo > tr > th {
+  @apply font-normal text-left text-neutral-5 pr-8 pb-2;
+}
+
+.orderInfo > tr > td {
+  @apply font-medium;
+}
+
+.orderInfo > tr > td::before {
+  content: ': ';
+}

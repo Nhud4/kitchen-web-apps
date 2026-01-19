@@ -1,0 +1,7 @@
+.container {
+  @apply flex w-full overflow-hidden;
+}
+
+.content {
+  @apply relative flex-1 px-0 ml-28;
+}
