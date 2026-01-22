@@ -1,6 +1,5 @@
 .navbar {
-  @apply flex items-center space-x-4 w-full p-4 bg-orange;
-  height: 80px;
+  @apply flex items-center justify-between w-full pt-8 px-4 pb-6 bg-orange;
 }
 
 .title > h1 {
@@ -9,4 +8,12 @@
 
 .title > p {
   @apply text-sm text-neutral;
+}
+
+.navMenu {
+  @apply p-3 rounded-xl border border-white;
+}
+
+.navMenu > svg {
+  color: #fff;
 }

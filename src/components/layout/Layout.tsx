@@ -18,15 +18,6 @@ const Layout: React.FC<Props> = ({
   headerComponent,
   headerVariant,
 }) => {
-  // const dispatch = useAppDispatch()
-  // const { data } = useAppSelector((state) => state.auth.profile)
-
-  // useEffect(() => {
-  //   if (!data.name) {
-  //     dispatch(authProfile())
-  //   }
-  // }, [dispatch, data])
-
   return (
     <main className={styles.container}>
       <Header
@@ -35,7 +26,7 @@ const Layout: React.FC<Props> = ({
         title={title}
         variant={headerVariant}
       />
-      <div className="mt-20 w-full">{children}</div>
+      <div className="mt-28 w-full">{children}</div>
     </main>
   )
 }

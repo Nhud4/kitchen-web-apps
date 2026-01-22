@@ -1,13 +1,9 @@
-.orderInfo {
-  @apply my-4;
-}
-
 .orderInfo > tr > th {
-  @apply font-normal text-left text-neutral-5 pr-8 pb-2;
+  @apply text-sm font-normal text-left text-neutral-5 pr-8 pb-2;
 }
 
 .orderInfo > tr > td {
-  @apply font-medium;
+  @apply flex items-center text-sm font-medium;
 }
 
 .orderInfo > tr > td::before {

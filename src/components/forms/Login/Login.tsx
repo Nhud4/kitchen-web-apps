@@ -1,21 +1,16 @@
+import Spinner from '@components/elements/Spinner'
 import ICONS from '@configs/icons'
-import { setUserToken } from '@storage/index'
-// import { useAppDispatch, useAppSelector } from '@redux/hooks'
-// import { setIsLogIn } from '@redux/slices/auth'
-// import { authLogin } from '@redux/slices/auth/action'
-import { useState } from 'react'
+import { useAppDispatch, useMutationSlice } from '@redux/hooks'
+import { authLogin } from '@redux/slices/auth/action'
+import { setUserData, setUserToken } from '@storage/index'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 
 import styles from './styles.module.css'
 import { resolver } from './utils'
 
 export const LoginForm: React.FC = (): React.ReactElement => {
-  // const { loading, success, error } = useAppSelector(
-  //   (state) => state.auth.login
-  // )
-  // const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const [showPassword, setShowPassword] = useState(false)
   const {
@@ -25,25 +20,28 @@ export const LoginForm: React.FC = (): React.ReactElement => {
   } = useForm<LoginFormValues>({ mode: 'onChange', resolver })
 
   const onSubmit = handleSubmit(async (data) => {
-    if (data.password === 'admin123' && data.username === 'admin') {
-      const date = new Date()
-      date.setDate(date.getDate() + 1)
-      const dataToken: UserToken = {
-        exp: date.toISOString(),
-        token: 'testToken',
-      }
-      setUserToken(dataToken)
-      navigate('/', { replace: true })
+    const payload: LoginRequest = {
+      password: data.password,
+      username: data.username,
     }
-    // await dispatch(authLogin({ ...data, userType: 'admin' }))
-    // dispatch(setIsLogIn())
+    dispatch(authLogin(payload))
   })
 
-  // useEffect(() => {
-  //   if (success) {
-  //     navigate('/', { replace: true })
-  //   }
-  // }, [success, navigate])
+  const { data, loading, error } = useMutationSlice<LoginResponse>({
+    key: 'add',
+    slice: 'auth',
+  })
+
+  useEffect(() => {
+    if (data) {
+      setUserToken({
+        exp: data.expiredAt,
+        token: data.token,
+      })
+      setUserData(data.user)
+      window.location.href = '/'
+    }
+  }, [data])
 
   return (
     <div className="z-10">
@@ -55,9 +53,9 @@ export const LoginForm: React.FC = (): React.ReactElement => {
         <p className={styles.subtitle}>Masuk untuk melanjutkan</p>
         {/* FORMS */}
         <form className={styles.form} onSubmit={onSubmit}>
-          {/* {error && (
+          {error ? (
             <p className={styles.errorMessage}>Username atau password salah</p>
-          )} */}
+          ) : null}
           <div className={styles.inputGroup}>
             <label htmlFor="username">Username</label>
             <input
@@ -92,7 +90,7 @@ export const LoginForm: React.FC = (): React.ReactElement => {
             {errors?.password && errors.password.message}
           </p>
           <button className={styles.submit} type="submit">
-            Masuk
+            {loading ? <Spinner /> : 'Masuk'}
           </button>
         </form>
       </div>

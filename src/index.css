@@ -67,7 +67,7 @@
   @media screen and (max-width: 768px) {
     .layout {
       @apply px-4 overflow-y-auto;
-      min-height: 90vh;
+      min-height: 87vh;
     }
   }
 }

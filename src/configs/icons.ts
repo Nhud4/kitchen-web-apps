@@ -8,6 +8,7 @@ import Logo from '@assets/icons/Logo.svg?react'
 import Printer from '@assets/icons/printer.svg?react'
 import Reload from '@assets/icons/reload.svg?react'
 import Search from '@assets/icons/search.svg?react'
+import SingOut from '@assets/icons/sign-out.svg?react'
 
 const ICONS = {
   Back,
@@ -20,6 +21,7 @@ const ICONS = {
   Printer,
   Reload,
   Search,
+  SingOut,
 }
 
 export default ICONS

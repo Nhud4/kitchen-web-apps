@@ -1,7 +1,13 @@
 import Button from '@components/elements/Button'
 import Layout from '@components/layout'
+import LoadingText from '@components/modules/LoadingText'
 import ICONS from '@configs/icons'
-import { dateOfTransactionFormat } from '@utils/date'
+import { useQuerySlice } from '@redux/hooks'
+import { clearTransaction } from '@redux/slices/transaction'
+import { fetchTransactionDetail } from '@redux/slices/transaction/action'
+import { customDateFormat } from '@utils/date'
+import { firestore } from '@utils/firebase'
+import { addDoc, collection } from 'firebase/firestore'
 import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,6 +16,42 @@ import styles from './styles.module.css'
 export const DetailOrder = () => {
   const { id = '' } = useParams()
   const navigate = useNavigate()
+
+  const { data, loading } = useQuerySlice<
+    TransactionDetail | null,
+    { id: string }
+  >({
+    clearSlice: clearTransaction('detail'),
+    initial: id,
+    key: 'detail',
+    slice: 'transaction',
+    thunk: fetchTransactionDetail(id),
+  })
+
+  const cashBack =
+    data?.payment && data?.payment > 0
+      ? (data?.payment || 0) - (data?.bill || 0)
+      : 0
+
+  const printerJob = () => {
+    addDoc(collection(firestore, 'prints'), {
+      cashier: data?.createdBy,
+      date: data?.transactionDate,
+      items: [
+        { name: 'Mie goreng aceh', price: 12000, qty: 1 },
+        { name: 'Es teh manis', price: 6000, qty: 2 },
+      ],
+      kembalian: cashBack,
+      orderNo: data?.code,
+      printed: false,
+      subtotal: data?.subtotal,
+      tax: data?.ppn,
+      time: customDateFormat(data?.createdAt, 'HH.mm', 'WIB'),
+      total: data?.bill,
+      tunai: data?.payment,
+    })
+  }
+
   return (
     <Layout
       headerComponent={
@@ -23,77 +65,117 @@ export const DetailOrder = () => {
       headerVariant="custom"
       title="Detail Pesanan"
     >
-      <section className="layout page pb-28">
-        <div className="space-y-4">
-          <div>
-            <h1>Informasi Pesanan</h1>
+      <section className="layout page">
+        <div className="flex flex-col justify-between">
+          <div className="space-y-4">
+            <div>
+              <h1 className="font-semibold text-orange">Informasi Pesanan</h1>
 
-            <table className={styles.orderInfo}>
-              <tr>
-                <th>No Pesnan</th>
-                <td>{id}</td>
-              </tr>
-              <tr>
-                <th>Tanggal Pesanan</th>
-                <td>{dateOfTransactionFormat(new Date().toISOString())}</td>
-              </tr>
-              <tr>
-                <th>Waktu Pesanan</th>
-                <td>10.30 WIB</td>
-              </tr>
-              <tr>
-                <th>Pelanggan</th>
-                <td>Wahyudin</td>
-              </tr>
-              <tr>
-                <th>No Meja</th>
-                <td>10</td>
-              </tr>
-              <tr>
-                <th>Kasir</th>
-                <td>Udin</td>
-              </tr>
-            </table>
-          </div>
+              <table className="my-4">
+                <tbody className={styles.orderInfo}>
+                  <tr>
+                    <th>No Pesnan</th>
+                    <td>
+                      <LoadingText
+                        className="pl-1"
+                        data={data?.code}
+                        loading={loading}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Tanggal</th>
+                    <td>
+                      <LoadingText
+                        className="pl-1"
+                        data={data?.transactionDate}
+                        loading={loading}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Waktu</th>
+                    <td>
+                      <LoadingText
+                        className="pl-1"
+                        data={customDateFormat(data?.createdAt)}
+                        loading={loading}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Pelanggan</th>
+                    <td>
+                      <LoadingText
+                        className="pl-1 capitalize"
+                        data={data?.customerName}
+                        loading={loading}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>No Meja</th>
+                    <td>
+                      <LoadingText
+                        className="pl-1"
+                        data={data?.tableNumber}
+                        loading={loading}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Waitress</th>
+                    <td>
+                      <LoadingText
+                        className="pl-1"
+                        data={data?.createdBy || '-'}
+                        loading={loading}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-          <div>
-            <h1>Informasi Menu</h1>
+            <div>
+              <h1 className="font-semibold text-orange">Informasi Menu</h1>
 
-            <div className="text-sm">
-              <div className="flex items-center gap-4 py-4 border-b border-b-border">
-                <p className="w-[80%] font-semibold">Item</p>
-                <p className="w-[20%] font-semibold">Qty</p>
-              </div>
-
-              {new Array(1).fill('').map((_, index) => (
-                <div
-                  className="py-4 border-b border-b-border space-y-2"
-                  key={index}
-                >
-                  <div className="flex items-center gap-4">
-                    <p className="w-[80%]">Mie Goreng sambal mangga</p>
-                    <p className="w-[20%]">1</p>
-                  </div>
-                  <div className="border border-border p-4 rounded-lg bg-white text-neutral-5">
-                    Tambah Nasi
-                  </div>
+              <div className="text-sm">
+                <div className="flex items-center gap-4 py-4 border-b border-b-border">
+                  <p className="w-[80%] font-semibold">Item</p>
+                  <p className="w-[20%] font-semibold">Qty</p>
                 </div>
-              ))}
+
+                {data?.items?.map((item, index) => (
+                  <div
+                    className="py-4 border-b border-b-border space-y-2"
+                    key={index}
+                  >
+                    <div className="flex items-center gap-4">
+                      <p className="w-[80%] capitalize">{item.name}</p>
+                      <p className="w-[20%]">{item.qty}</p>
+                    </div>
+                    {item.note ? (
+                      <div className="border border-border p-4 rounded-lg bg-white text-neutral-5">
+                        {item.note}
+                      </div>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
+
+          <Button
+            className="justify-center"
+            leftIcon={<ICONS.Printer />}
+            onClick={printerJob}
+            variant="outline"
+          >
+            Cetak Resi
+          </Button>
         </div>
       </section>
-
-      <div className="fixed bottom-0 grid grid-cols-2 w-full gap-4 px-4 py-8 border-t border-t-border bg-neutral-4">
-        <Button
-          className="justify-center"
-          leftIcon={<ICONS.Printer />}
-          variant="outline"
-        >
-          Cetak Resi
-        </Button>
-        <Button className="justify-center">Selesaikan Pesanan</Button>
-      </div>
     </Layout>
   )
 }

@@ -1,3 +1,5 @@
+import 'react-loading-skeleton/dist/skeleton.css'
+
 import ErrorFallback from '@components/elements/ErrorFallback'
 import FallbackPage from '@components/elements/FallbackPage'
 import RouteChangeDetector from '@components/modules/RouteChangeDetector'

@@ -3,15 +3,15 @@
 }
 
 .header > p {
-  @apply text-base font-semibold text-orange;
-}
-
-.data {
-  @apply my-4;
+  @apply text-sm font-semibold text-orange;
 }
 
 .data > tr > th {
-  @apply font-normal text-left text-neutral-5 pr-8 pb-2;
+  @apply text-sm font-normal text-left text-neutral-5 pr-8 pb-2;
+}
+
+.data > tr > td {
+  @apply text-sm;
 }
 
 .data > tr > td::before {

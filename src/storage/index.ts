@@ -2,13 +2,13 @@ const USER = 'user_data'
 const TOKEN = 'user_token'
 
 // USER DATA
-export const setUserData = () => {
-  localStorage.setItem(USER, 'true')
+export const setUserData = (data: User) => {
+  localStorage.setItem(USER, JSON.stringify(data))
 }
 
 export const getUserData = () => {
   const data = localStorage.getItem(USER)
-  return data ? JSON.parse(data || '') : ''
+  return (data ? JSON.parse(data || '') : '') as User
 }
 
 // USER TOKEN
