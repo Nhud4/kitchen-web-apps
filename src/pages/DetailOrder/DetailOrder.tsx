@@ -7,7 +7,7 @@ import { clearTransaction } from '@redux/slices/transaction'
 import { fetchTransactionDetail } from '@redux/slices/transaction/action'
 import { customDateFormat } from '@utils/date'
 import { firestore } from '@utils/firebase'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
@@ -36,7 +36,9 @@ export const DetailOrder = () => {
   const printerJob = () => {
     addDoc(collection(firestore, 'prints'), {
       cashier: data?.createdBy,
+      createdAt: serverTimestamp(),
       date: data?.transactionDate,
+      customer: data?.customerName,
       items: [
         { name: 'Mie goreng aceh', price: 12000, qty: 1 },
         { name: 'Es teh manis', price: 6000, qty: 2 },
@@ -45,6 +47,7 @@ export const DetailOrder = () => {
       orderNo: data?.code,
       printed: false,
       subtotal: data?.subtotal,
+      table: data?.tableNumber,
       tax: data?.ppn,
       time: customDateFormat(data?.createdAt, 'HH.mm', 'WIB'),
       total: data?.bill,

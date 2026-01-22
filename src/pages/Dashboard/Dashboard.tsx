@@ -4,15 +4,15 @@ import { useQuerySlice } from '@redux/hooks'
 import { clearTransaction } from '@redux/slices/transaction'
 import { fetchTransactionList } from '@redux/slices/transaction/action'
 import { getLocalDay } from '@utils/date'
+import { customDateFormat } from '@utils/date'
 import type React from 'react'
 import { useState } from 'react'
-// import { customDateFormat } from '@utils/date'
 
 export const Dashboard: React.FC = () => {
   const initialParams = {
+    date: customDateFormat(new Date().toISOString(), 'yyyy-MM-dd'),
     page: 1,
     size: 0,
-    // date: customDateFormat(new Date().toISOString(), 'yyyy-MM-dd'),
   }
 
   const [params] = useState(initialParams)
