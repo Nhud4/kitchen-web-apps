@@ -37,12 +37,13 @@ export const DetailOrder = () => {
     addDoc(collection(firestore, 'prints'), {
       cashier: data?.createdBy,
       createdAt: serverTimestamp(),
-      date: data?.transactionDate,
       customer: data?.customerName,
-      items: [
-        { name: 'Mie goreng aceh', price: 12000, qty: 1 },
-        { name: 'Es teh manis', price: 6000, qty: 2 },
-      ],
+      date: data?.transactionDate,
+      items: data?.items?.map((item) => ({
+        name: item.name,
+        price: item.price,
+        qty: item.qty,
+      })),
       kembalian: cashBack,
       orderNo: data?.code,
       printed: false,
