@@ -1,5 +1,5 @@
 import Layout from '@components/layout'
-import CardOrder from '@features/CardOrder'
+import OrderList from '@features/OrderList'
 import { useQuerySlice } from '@redux/hooks'
 import { clearTransaction } from '@redux/slices/transaction'
 import { fetchTransactionList } from '@redux/slices/transaction/action'
@@ -39,19 +39,7 @@ export const Dashboard: React.FC = () => {
             <p className="text-neutral-5">{getLocalDay()}</p>
           </div>
 
-          {loading ? (
-            <div className="space-y-8 pt-8">
-              {new Array(5).fill('').map((_, index) => (
-                <CardOrder key={index} loading />
-              ))}
-            </div>
-          ) : (
-            <div className="space-y-8 pt-8">
-              {data.map((item, index) => (
-                <CardOrder data={item} key={index} />
-              ))}
-            </div>
-          )}
+          <OrderList data={data} loading={loading} />
         </div>
       </section>
     </Layout>
