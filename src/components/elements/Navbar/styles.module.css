@@ -11,7 +11,7 @@
 }
 
 .navMenu {
-  @apply p-3 rounded-xl border border-white;
+  @apply p-3 rounded-xl;
 }
 
 .navMenu > svg {
